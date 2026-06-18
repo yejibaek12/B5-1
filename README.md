@@ -20,12 +20,19 @@
 ```text
 B5-1/
 │
+├── README.md
 ├── schema.sql             # 테이블 정의 및 제약조건 설정 스크립트
 ├── insert.sql             # 10행 이상의 샘플 데이터 입력 스크립트
 ├── queries.sql            # 핵심 쿼리 15개 및 설명 주석
-├── README.md
 │
-└── screenshots/            # 쿼리 실행 결과 확인 자료 폴더
+├── docs/ 
+│   ├── anwer.md
+│   └── checklist.md
+│
+└── screenshots/            # 쿼리 실행 결과 확인 자료 폴더           
+    ├── erd.png           
+    ├── query_result1.png
+    └── query_result2.png
 ```
 
 ## **3. 데이터 모델링 및 테이블 설계 (ERD)**
