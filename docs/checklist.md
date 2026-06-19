@@ -20,14 +20,14 @@
 
 3. queries.sql 체크리스트
 
-[ ] 각 쿼리 상단에 "무엇을 확인하는 쿼리인지" 한 줄 설명 주석 작성   
-[ ] 총 15개 이상의 핵심 쿼리 작성   
-[ ] 기본 조회 4개 이상 (WHERE, ORDER BY, LIMIT 포함)   
-[ ] 조인 4개 이상 (INNER JOIN 2개 이상, LEFT JOIN 1개 이상 포함)   
-[ ] 집계 3개 이상 (COUNT, SUM, AVG 중 2개 이상 + GROUP BY 포함)   
-[ ] 서브쿼리 1개 이상 포함   
-[ ] 데이터 수정 및 삭제 2개 이상 (UPDATE, DELETE 포함)   
-[ ] 특정 DB 고유 문법 사용 시 해당 쿼리에 주석으로 명시 
+[x] 각 쿼리 상단에 "무엇을 확인하는 쿼리인지" 한 줄 설명 주석 작성   
+[x] 총 15개 이상의 핵심 쿼리 작성   
+[x] 기본 조회 4개 이상 (WHERE, ORDER BY, LIMIT 포함)   
+[x] 조인 4개 이상 (INNER JOIN 2개 이상, LEFT JOIN 1개 이상 포함)   
+[x] 집계 3개 이상 (COUNT, SUM, AVG 중 2개 이상 + GROUP BY 포함)   
+[x] 서브쿼리 1개 이상 포함   
+[x] 데이터 수정 및 삭제 2개 이상 (UPDATE, DELETE 포함)   
+[x] 특정 DB 고유 문법 사용 시 해당 쿼리에 주석으로 명시 
 
 4. screenshots/ 체크리스트
 
