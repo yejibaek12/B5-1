@@ -10,9 +10,9 @@
 3. **패러다임 전환을 위한 기반 마련**: 추후 JPA/ORM 학습 시 기반이 되는 `1:N 관계`, `참조 무결성`, `조인 및 그룹화 기반 조회` 알고리즘을 SQL 관점에서 깊이 있게 체득합니다.
 
 ### **개발 환경**
-- **OS (운영체제)**: macOS / Windows 11 / Ubuntu (본인 컴퓨터 OS 선택)
-- **DBMS (데이터베이스)**: MySQL 8.x / SQLite 3 / PostgreSQL (본인이 선택한 DB 하나만 작성)
-- **DB Client (접속 도구)**: DBeaver / DataGrip / TablePlus / CLI (본인이 쿼리 날릴 때 쓴 도구 선택)
+- **OS (운영체제)**: macOS
+- **DBMS (데이터베이스)**: MySQL 8.x (Docker Containter 기반)
+- **DB Client (접속 도구)**: DBeaver
 - **강제 제약사항**: 순수 SQL 학습을 위해 백엔드 프레임워크(Spring, Express 등) 및 ORM(JPA)은 일절 사용하지 않음 
 
 ## **2. 폴더 구조**
