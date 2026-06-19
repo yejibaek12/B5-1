@@ -11,9 +11,23 @@
 
 ### **개발 환경**
 - **OS (운영체제)**: macOS
-- **DBMS (데이터베이스)**: MySQL 8.x (Docker Containter 기반)
+- **DBMS (데이터베이스)**: MySQL 8.x (Docker Container 기반)
 - **DB Client (접속 도구)**: DBeaver
 - **강제 제약사항**: 순수 SQL 학습을 위해 백엔드 프레임워크(Spring, Express 등) 및 ORM(JPA)은 일절 사용하지 않음 
+
+#### **Docker 기반 MySQL 컨테이너 실행 및 연결 방법**
+1. **Docker Desktop**을 실행하여 엔진이 구동 중인지 확인합니다.
+2. 터미널(PowerShell 또는 Terminal)을 열어 아래 명령어를 실행합니다.
+    ```bash
+    docker run -d --name mysql-container -p 3306:3306 -e MYSQL_ROOT_PASSWORD=your_password -v mysql-db-data:/var/lib/mysql mysql:8.0
+    ```
+    * **명령어 옵션 설명**:
+      * `-d`: 백그라운드(데몬) 모드로 컨테이너를 구동하여 터미널 창을 닫아도 계속 실행되도록 합니다.
+      * `--name mysql-container`: 컨테이너의 고유 이름을 `mysql-container`로 지정합니다.
+      * `-p 3306:3306`: 호스트 PC의 3306 포트와 컨테이너 내부의 3306 포트를 연결(포트 포워딩)합니다.
+      * `-e MYSQL_ROOT_PASSWORD=your_password`: MySQL의 `root` 최고 관리자 접속 비밀번호를 설정합니다. (`your_password` 부분을 실제 원하는 비밀번호로 변경하여 사용)
+      * `-v mysql-db-data:/var/lib/mysql`: 데이터를 호스트 PC에 볼륨(Volume) 형태로 안전하게 저장하여, 컨테이너를 삭제하고 다시 띄워도 실습 데이터가 보존되도록 합니다.
+      * `mysql:8.0`: Docker Hub에서 공식 MySQL 8.0 이미지 버전을 가져와 실행합니다.
 
 ## **2. 폴더 구조**
 
