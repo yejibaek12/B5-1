@@ -54,7 +54,38 @@ B5-1/
 회원 정보, 도서 카테고리, 도서 상세 정보, 그리고 회원의 도서 대여 및 반납 이력을 유기적으로 연결하여 안전하게 관리하는 시스템입니다.
 
 ### ERD 다이어그램
-![도서 대여 시스템 ERD](screenshots/erd.png)
+
+```mermaid
+erDiagram
+    member {
+        int id PK
+        varchar email UK
+        varchar name
+        datetime created_at
+    }
+    category {
+        int id PK
+        varchar name UK
+    }
+    book {
+        int id PK
+        varchar title
+        varchar author
+        int price
+        int category_id FK
+    }
+    rental {
+        int id PK
+        int member_id FK
+        int book_id FK
+        datetime rented_at
+        datetime returned_at
+    }
+
+    category ||--o{ book : "has"
+    member ||--o{ rental : "rents"
+    book ||--o{ rental : "is rented"
+```
 
 ### 테이블 및 관계 구조(최소 4개 테이블, 1:N 관계 2개 이상)
 도메인의 역할에 따라 데이터 중복을 최소화하도록 총 4개의 테이블로 분리하여 설계했습니다
