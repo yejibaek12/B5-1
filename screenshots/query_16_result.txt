@@ -1,7 +1,0 @@
-# Q16. 카테고리 ID가 없는 도서 데이터 일괄 삭제 (DELETE)
-# Query:
-DELETE FROM book 
-WHERE category_id IS NULL;
-
-# Result:
-Query OK, 0 row(s) affected.

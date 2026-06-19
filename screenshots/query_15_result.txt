@@ -1,8 +1,0 @@
-# Q15. 회원 ID 1번이 빌린 2번 도서에 대해 현재 시간으로 반납 처리 업데이트 (UPDATE)
-# Query:
-UPDATE rental 
-SET returned_at = CURRENT_TIMESTAMP 
-WHERE member_id = 1 AND book_id = 2 AND returned_at IS NULL;
-
-# Result:
-Query OK, 1 row(s) affected.
