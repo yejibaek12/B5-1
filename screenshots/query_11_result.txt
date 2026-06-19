@@ -1,0 +1,15 @@
+# Q11. 누적 대여 건수가 2건 이상인 회원 ID 추출 (HAVING 활용)
+# Query:
+SELECT member_id, COUNT(id) AS 대여_건수
+FROM rental
+GROUP BY member_id
+HAVING COUNT(id) >= 2;
+
+# Result:
++-----------+-----------+
+| member_id | 대여_건수 |
++-----------+-----------+
+| 1         | 2         |
+| 2         | 2         |
+| 5         | 2         |
++-----------+-----------+

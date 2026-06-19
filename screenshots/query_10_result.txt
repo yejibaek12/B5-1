@@ -1,0 +1,15 @@
+# Q10. 회원별로 반납 완료된 총 대여 횟수 집계
+# Query:
+SELECT member_id, COUNT(id) AS 반납_완료_건수
+FROM rental
+WHERE returned_at IS NOT NULL
+GROUP BY member_id;
+
+# Result:
++-----------+----------------+
+| member_id | 반납_완료_건수 |
++-----------+----------------+
+| 1         | 1              |
+| 2         | 1              |
+| 3         | 1              |
++-----------+----------------+

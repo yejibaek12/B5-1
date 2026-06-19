@@ -1,0 +1,6 @@
+# Q17. 대여일(rented_at) 기준 검색 및 정렬 성능 최적화를 위한 인덱스 생성
+# Query:
+CREATE INDEX idx_rental_rented_at ON rental(rented_at);
+
+# Result:
+Query OK, index created successfully (index already exists).

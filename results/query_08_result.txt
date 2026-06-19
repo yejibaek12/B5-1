@@ -1,0 +1,14 @@
+# Q8. 'IT/컴퓨터' 카테고리에 속한 도서들만 조인하여 조회
+# Query:
+SELECT b.title, b.author, c.name
+FROM book b
+INNER JOIN category c ON b.category_id = c.id
+WHERE c.name = 'IT/컴퓨터';
+
+# Result:
++------------------+----------+-----------+
+| title            | author   | name      |
++------------------+----------+-----------+
+| 이것이 MySQL이다 | 우재남   | IT/컴퓨터 |
+| 맛있는 파이썬    | 구멍가게 | IT/컴퓨터 |
++------------------+----------+-----------+
