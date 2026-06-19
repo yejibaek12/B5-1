@@ -1,3 +1,11 @@
+## 0. 기존 데이터 삭제 및 AUTO_INCREMENT 초기화 (반복 실행 가능하도록 설정)
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE rental;
+TRUNCATE TABLE book;
+TRUNCATE TABLE member;
+TRUNCATE TABLE category;
+SET FOREIGN_KEY_CHECKS = 1;
+
 ## 1. category 데이터 (10행)
 INSERT INTO category (name) VALUES 
 ('IT/컴퓨터'), ('소설'), ('인문학'), ('경제/경영'), ('자기계발'),
