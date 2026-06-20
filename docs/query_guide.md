@@ -113,6 +113,8 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   SELECT * FROM member ORDER BY created_at DESC LIMIT 3;
   ```
 
+> • **실행 결과**: [Q1 결과](../results/query_01_result.txt) | [Q3 결과](../results/query_03_result.txt)
+
 #### B. 패턴 매칭 (`LIKE`)
 * **개념**: 와일드카드 문자(`%`, `_`)를 사용하여 문자열의 일부가 일치하는 데이터를 검색합니다.
   * `%`: 0개 이상의 임의의 문자열 (예: `'김%'`은 '김'으로 시작하는 모든 글자)
@@ -122,6 +124,8 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   -- 성이 '김'씨인 회원 검색
   SELECT * FROM member WHERE name LIKE '김%';
   ```
+
+> • **실행 결과**: [Q2 결과](../results/query_02_result.txt)
 
 #### C. 테이블 결합 (`JOIN`)
 * **`INNER JOIN`**: 조인하는 두 테이블 양쪽 모두에 연관되는 매칭 데이터가 존재하는 행만 합쳐서 반환합니다.
@@ -140,6 +144,14 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   GROUP BY m.id, m.name;
   ```
 
+> • **실행 결과**: [Q6 결과](../results/query_06_result.txt) | [Q7 결과](../results/query_07_result.txt)
+
+> [!TIP]
+> **JOIN과 GROUP BY의 핵심 차이점**
+> * **`JOIN` (가로로 병합)**: 서로 다른 테이블들을 공통 컬럼 기준으로 **옆으로 이어 붙여** 정보를 확장합니다. (결과 데이터 행이 유지되거나 중복 매칭 시 늘어남)
+> * **`GROUP BY` (세로로 압축)**: 가로로 펼쳐진 여러 행의 데이터를 특정 기준에 따라 **하나로 묶어 요약(COUNT, SUM, AVG 등)**합니다. (결과 행이 그룹당 1행으로 축소됨)
+
+
 #### D. 집계 및 그룹화 (`GROUP BY`, `HAVING`)
 * **`GROUP BY`**: 특정 컬럼을 기준으로 행들을 그룹으로 묶습니다.
 * **`HAVING`**: `GROUP BY`로 그룹화된 결과에 집계 조건을 적용합니다. (※ `WHERE`는 그룹화 이전에 행 단위로 작동함)
@@ -156,6 +168,14 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   GROUP BY c.name;
   ```
 
+> • **실행 결과**: [Q11 결과](../results/query_11_result.txt) | [Q12 결과](../results/query_12_result.txt)
+
+> [!TIP]
+> **WHERE와 HAVING의 핵심 차이점**
+> * **`WHERE` (그룹화 전 필터링)**: 테이블 내 개별 행(Row) 단위로 조건에 맞춰 데이터를 걸러냅니다. 따라서 집계 함수(`COUNT`, `SUM`, `AVG` 등)를 조건식에 쓸 수 없습니다.
+> * **`HAVING` (그룹화 후 필터링)**: `GROUP BY`로 묶인 결과 그룹들을 대상으로 조건을 걸어 필터링합니다. 주로 집계 함수가 포함된 조건을 다룰 때 사용합니다.
+
+
 #### E. 서브쿼리 (Subquery)
 * **개념**: 쿼리문 안에 포함된 또 다른 `SELECT` 문을 의미합니다.
 * **프로젝트 예시 ([queries.sql](../queries.sql) Q13, Q14)**:
@@ -168,6 +188,8 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   SELECT title, price FROM book 
   WHERE price > (SELECT AVG(price) FROM book);
   ```
+
+> • **실행 결과**: [Q13 결과](../results/query_13_result.txt) | [Q14 결과](../results/query_14_result.txt)
 
 ---
 
@@ -187,6 +209,8 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   WHERE member_id = 1 AND book_id = 2 AND returned_at IS NULL;
   ```
 
+> • **실행 결과**: [Q15 결과](../results/query_15_result.txt)
+
 ---
 
 ### 2.4. `DELETE` (데이터 삭제)
@@ -199,6 +223,8 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   ```sql
   DELETE FROM book WHERE category_id IS NULL;
   ```
+
+> • **실행 결과**: [Q16 결과](../results/query_16_result.txt)
 
 ---
 
