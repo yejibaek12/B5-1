@@ -1,6 +1,6 @@
 # 도서 대여 관리 시스템 - SQL 명령어 및 문법 가이드
 
-본 문서는 프로젝트의 SQL 파일(`schema.sql`, `insert.sql`, `queries.sql`)에서 사용된 주요 SQL 명령어들의 기본 개념, 문법 구조, 그리고 프로젝트 내 실제 사용 사례와 응용 예시를 정리한 **문법 및 사용법 가이드**입니다.
+본 문서는 프로젝트의 SQL 파일([schema.sql](../schema.sql), [insert.sql](../insert.sql), [queries.sql](../queries.sql))에서 사용된 주요 SQL 명령어들의 기본 개념, 문법 구조, 그리고 프로젝트 내 실제 사용 사례와 응용 예시를 정리한 **문법 및 사용법 가이드**입니다.
 
 ---
 
@@ -14,7 +14,7 @@
   DROP TABLE [IF EXISTS] 테이블명;
   ```
   * `IF EXISTS`: 테이블이 존재하지 않을 때 발생하는 에러를 방지합니다.
-* **프로젝트 내 사용 예시 (`schema.sql`)**:
+* **프로젝트 내 사용 예시 ([schema.sql](../schema.sql))**:
   ```sql
   DROP TABLE IF EXISTS rental;
   DROP TABLE IF EXISTS book;
@@ -44,7 +44,7 @@
   * `UNIQUE`: 중복된 값을 허용하지 않습니다.
   * `DEFAULT`: 값을 따로 입력하지 않았을 때 자동으로 적용되는 기본값을 지정합니다.
   * `FOREIGN KEY (FK)`: 다른 테이블의 기본키를 참조하여 테이블 간의 연결 고리를 만듭니다.
-* **프로젝트 내 사용 예시 (`schema.sql`)**:
+* **프로젝트 내 사용 예시 ([schema.sql](../schema.sql))**:
   ```sql
   CREATE TABLE book (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -66,7 +66,7 @@
   ```sql
   CREATE INDEX 인덱스명 ON 테이블명 (컬럼명);
   ```
-* **프로젝트 내 사용 예시 (`schema.sql` / `queries.sql` Q17)**:
+* **프로젝트 내 사용 예시 ([schema.sql](../schema.sql) / [queries.sql](../queries.sql) Q17)**:
   ```sql
   CREATE INDEX idx_rental_rented_at ON rental(rented_at);
   ```
@@ -87,7 +87,7 @@
   ```sql
   INSERT INTO 테이블명 (컬럼1, 컬럼2) VALUES (값A1, 값A2), (값B1, 값B2), (값C1, 값C2);
   ```
-* **프로젝트 내 사용 예시 (`insert.sql`)**:
+* **프로젝트 내 사용 예시 ([insert.sql](../insert.sql))**:
   ```sql
   INSERT INTO member (email, name) VALUES 
   ('kim@example.com', '김철수'),
@@ -104,7 +104,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 * **`WHERE`**: 특정 조건을 만족하는 데이터만 걸러냅니다.
 * **`ORDER BY`**: 특정 컬럼을 기준으로 데이터를 정렬합니다. (오름차순: `ASC`, 내림차순: `DESC`)
 * **`LIMIT`**: 조회할 행의 최대 개수를 제한합니다.
-* **프로젝트 예시 (`queries.sql` Q1, Q3)**:
+* **프로젝트 예시 ([queries.sql](../queries.sql) Q1, Q3)**:
   ```sql
   -- 가격이 20,000원 이상인 도서를 가장 비싼 순으로 정렬
   SELECT * FROM book WHERE price >= 20000 ORDER BY price DESC;
@@ -117,7 +117,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 * **개념**: 와일드카드 문자(`%`, `_`)를 사용하여 문자열의 일부가 일치하는 데이터를 검색합니다.
   * `%`: 0개 이상의 임의의 문자열 (예: `'김%'`은 '김'으로 시작하는 모든 글자)
   * `_`: 정확히 1개의 임의의 문자
-* **프로젝트 예시 (`queries.sql` Q2)**:
+* **프로젝트 예시 ([queries.sql](../queries.sql) Q2)**:
   ```sql
   -- 성이 '김'씨인 회원 검색
   SELECT * FROM member WHERE name LIKE '김%';
@@ -126,7 +126,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 #### C. 테이블 결합 (`JOIN`)
 * **`INNER JOIN`**: 조인하는 두 테이블 양쪽 모두에 연관되는 매칭 데이터가 존재하는 행만 합쳐서 반환합니다.
 * **`LEFT JOIN`**: 왼쪽 테이블의 모든 행을 유지하면서 오른쪽 테이블의 정보를 매칭시킵니다. 매칭 데이터가 없는 경우 오른쪽 테이블 영역은 `NULL`로 표시됩니다.
-* **프로젝트 예시 (`queries.sql` Q6, Q7)**:
+* **프로젝트 예시 ([queries.sql](../queries.sql) Q6, Q7)**:
   ```sql
   -- 책과 카테고리명을 매칭하여 조회 (INNER JOIN)
   SELECT b.title, c.name 
@@ -144,7 +144,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 * **`GROUP BY`**: 특정 컬럼을 기준으로 행들을 그룹으로 묶습니다.
 * **`HAVING`**: `GROUP BY`로 그룹화된 결과에 집계 조건을 적용합니다. (※ `WHERE`는 그룹화 이전에 행 단위로 작동함)
 * **집계 함수**: `COUNT()` (개수), `SUM()` (합계), `AVG()` (평균) 등
-* **프로젝트 예시 (`queries.sql` Q11, Q12)**:
+* **프로젝트 예시 ([queries.sql](../queries.sql) Q11, Q12)**:
   ```sql
   -- 누적 대여 건수가 2건 이상인 우수 회원 ID 추출 (HAVING 사용)
   SELECT member_id, COUNT(id) FROM rental GROUP BY member_id HAVING COUNT(id) >= 2;
@@ -158,7 +158,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 
 #### E. 서브쿼리 (Subquery)
 * **개념**: 쿼리문 안에 포함된 또 다른 `SELECT` 문을 의미합니다.
-* **프로젝트 예시 (`queries.sql` Q13, Q14)**:
+* **프로젝트 예시 ([queries.sql](../queries.sql) Q13, Q14)**:
   ```sql
   -- 대여 기록이 없는 회원의 이름 조회 (NOT IN 서브쿼리)
   SELECT name FROM member 
@@ -180,7 +180,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   > [!CAUTION]
   > **WHERE 절 생략 주의**
   > `UPDATE` 문을 실행할 때 `WHERE` 절을 누락하거나 조건이 불명확하면 테이블의 **모든 행**의 데이터가 강제로 업데이트되는 치명적인 실수가 발생할 수 있습니다.
-* **프로젝트 내 사용 예시 (`queries.sql` Q15)**:
+* **프로젝트 내 사용 예시 ([queries.sql](../queries.sql) Q15)**:
   ```sql
   UPDATE rental 
   SET returned_at = CURRENT_TIMESTAMP 
@@ -195,7 +195,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   ```sql
   DELETE FROM 테이블명 WHERE 조건;
   ```
-* **프로젝트 내 사용 예시 (`queries.sql` Q16)**:
+* **프로젝트 내 사용 예시 ([queries.sql](../queries.sql) Q16)**:
   ```sql
   DELETE FROM book WHERE category_id IS NULL;
   ```
@@ -213,7 +213,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 * **`DELETE` vs `TRUNCATE` 비교**:
   * `DELETE`는 조건 설정이 가능하고 트랜잭션 롤백이 비교적 용이하나 속도가 느립니다.
   * `TRUNCATE`는 조건 없이 테이블 전체를 즉시 지우며 복구(Rollback)가 안 되지만 속도가 매우 빠릅니다.
-* **프로젝트 내 사용 예시 (`insert.sql`)**:
+* **프로젝트 내 사용 예시 ([insert.sql](../insert.sql))**:
   ```sql
   TRUNCATE TABLE rental;
   TRUNCATE TABLE book;
@@ -223,7 +223,7 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
 
 ### 3.2. `SET FOREIGN_KEY_CHECKS` (외래키 제약조건 토글)
 * **개념**: 일시적으로 외래키 제약조건 검사를 비활성화(`0`)하거나 다시 활성화(`1`)합니다.
-* **프로젝트 내 사용 예시 (`insert.sql`)**:
+* **프로젝트 내 사용 예시 ([insert.sql](../insert.sql))**:
   ```sql
   SET FOREIGN_KEY_CHECKS = 0;
   -- (테이블 TRUNCATE 및 데이터 재삽입 수행)
