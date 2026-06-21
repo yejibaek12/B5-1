@@ -325,8 +325,18 @@ flowchart TD
 
 #### 8.1. 직면했던 문제 상황: 외래키 제약조건에 따른 DDL/DML 실행 순서 엉킴 현상
 데이터베이스 스키마 설계 시, 참조 무결성을 높이기 위해 `rental` $\rightarrow$ `member` / `book`, 그리고 `book` $\rightarrow$ `category` 방향으로 3개의 외래키(FK) 관계를 구축했습니다. 이 상태에서 테이블 재생성 DDL 테스트를 수행할 때 다음과 같은 오류들이 연쇄적으로 발생했습니다.
-* **테이블 삭제 오류**: 부모 테이블인 `member`나 `category`를 자식 테이블보다 먼저 삭제(`DROP TABLE`)하려 하면, 외래키 참조 관계가 끊어진다는 오류메시지와 함께 처리가 완전히 실패했습니다.
+* **테이블 삭제 오류**: 부모 테이블인 `member`나 `category`를 자식 테이블보다 먼저 삭제(`DROP TABLE`)하려 하면, 외래키 참조 관계 제약에 가로막혀 처리가 완전히 실패했습니다.
+  ```sql
+  DROP TABLE category;
+  -- [오류 출력 예시]
+  -- ERROR 3730 (HY000): Cannot drop table 'category' referenced by a foreign key constraint 'book_ibfk_1' on table 'book'.
+  ```
 * **데이터 일괄 초기화 실패**: 테이블을 비우고 테스트 데이터를 다시 밀어 넣는 작업 시, `TRUNCATE TABLE`을 실행하면 역시 자식 테이블의 참조 무결성 락에 막혀 테이블 초기화가 이뤄지지 못했습니다.
+  ```sql
+  TRUNCATE TABLE category;
+  -- [오류 출력 예시]
+  -- ERROR 1701 (42000): Cannot truncate a table referenced in a foreign key constraint (`library_db`.`book`, CONSTRAINT `book_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `library_db`.`category` (`id`))
+  ```
 
 #### 8.2. 이를 극복한 구체적인 해결 방안 및 설계 기준
 이 문제를 올바르게 제어하고 정상적인 동작 상태를 확보하기 위해 세 가지 명확한 해결책을 도입했습니다.
@@ -337,5 +347,18 @@ flowchart TD
 2. **외래키 제약조건의 동적 활성/비활성 제어 (`SET FOREIGN_KEY_CHECKS`)**:
    - `insert.sql`에서 테이블 초기화 시 무결성 제한을 잠시 우회하기 위해 `SET FOREIGN_KEY_CHECKS = 0;` 구문을 활용해 제약조건 검사를 비활성화하고, 삭제 및 데이터 삽입이 완료된 즉시 `SET FOREIGN_KEY_CHECKS = 1;`로 환원하여 실제 대여 입력 상황에서는 비즈니스 정합성이 상시 발휘되도록 통제했습니다.
 3. **참조 상태 변화에 대한 연쇄 옵션의 구체적 분리 적용**:
-   - 카테고리(`category`) 삭제 시 해당 카테고리에 할당된 도서 정보(`book`)는 카테고리만 소실되고 도서 자체는 남도록 `ON DELETE SET NULL`을 처리하여 비즈니스 논리에 맞췄습니다.
-   - 반면, 회원(`member`)이나 도서(`book`) 정보가 완전 탈퇴/소멸될 때에는 남아있어 봤자 의미 없는 과거 대여 정보(`rental`)가 정합성에 위해를 주는 유령 데이터가 되지 않도록 `ON DELETE CASCADE`를 적용해 연쇄 삭제되도록 구축했습니다. 이 방식을 통해 데이터 삭제 시나리오까지 완벽히 컨트롤하게 되었습니다.
+   * **`ON DELETE SET NULL`** (카테고리 삭제 시 도서의 `category_id`만 `NULL`로 처리하고 도서 정보 보존)
+     * **파일 위치**: [schema.sql L28](../schema.sql#L28)
+     * **코드 구문**:
+       ```sql
+       FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL
+       ```
+     * *비즈니스 의도*: 특정 카테고리가 사라지더라도 해당 카테고리에 속한 실물 도서 데이터까지 삭제되면 안 되므로, 분류 정보만 끊어지게(`NULL`) 처리하고 책 자체는 보존하도록 설계했습니다.
+   * **`ON DELETE CASCADE`** (회원 또는 도서 정보 완전 삭제 시 관련 대여 기록 자동 연쇄 삭제)
+     * **파일 위치**: [schema.sql L38-39](../schema.sql#L38-L39)
+     * **코드 구문**:
+       ```sql
+       FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE,
+       FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE
+       ```
+     * *비즈니스 의도*: 대여의 주체인 회원(`member`)이나 대여 대상인 도서(`book`) 데이터가 데이터베이스에서 영구 소멸(탈퇴/폐기)할 때는, 남아있어 봤자 참조 무결성을 깨뜨리는 유령 데이터가 되는 대여 이력(`rental`)들을 자동으로 함께 삭제하여 스키마 정합성을 온전히 지키도록 구축했습니다.
