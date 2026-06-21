@@ -189,6 +189,13 @@ SQL에서 가장 많이 사용되며, 다양한 키워드를 사용해 원하는
   WHERE price > (SELECT AVG(price) FROM book);
   ```
 
+> [!NOTE]
+> **SELECT DISTINCT 구문의 역할과 성능 최적화**
+> * **개념**: 조회 결과에서 중복된 데이터를 제거하고 고유한(Unique) 레코드만 출력하고자 할 때 사용합니다.
+> * **활용 예시**: `SELECT DISTINCT member_id FROM rental`은 대여 테이블의 여러 건의 대여 이력에서 동일한 회원 ID가 중복 출력되는 것을 막고, 현재 대여 중인 고유한 회원 ID 목록만 반환합니다.
+> * **최적화 이점**: `NOT IN` 또는 `IN` 서브쿼리에 `DISTINCT`를 적용하면 비교 대상이 되는 목록의 크기를 최소화하여 바깥쪽 쿼리가 데이터 존재 여부를 검색하는 연산 비용을 대폭 아낄 수 있습니다.
+
+
 > • **실행 결과**: [Q13 결과](../results/query_13_result.txt) | [Q14 결과](../results/query_14_result.txt)
 
 ---
